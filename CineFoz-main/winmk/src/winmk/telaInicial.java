@@ -41,181 +41,390 @@ public class telaInicial extends JFrame
         telaLogin(); // Exibe a tela inicial assim que a janela é criada
     }
     
-	
-	public void telaLogin() {
-	    setTitle("🎬 CineFoz - Login");
-	    setSize(500, 400);
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    setLocationRelativeTo(null);
-	    setLayout(new BorderLayout());
+	public void telaLogin() 
+    {
+        setTitle("🎬 CineFoz - Login");
+        setSize(600, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-	    // Painel de fundo
-	    JPanel background = new JPanel();
-	    background.setBackground(new Color(30, 30, 30));
-	    background.setLayout(new GridBagLayout());
-	    add(background, BorderLayout.CENTER);
+        // Painel principal
+        JPanel telaLogin = new JPanel(new BorderLayout());
+        telaLogin.setBackground(new Color(40, 40, 40)); 
 
-	    GridBagConstraints gbc = new GridBagConstraints();
-	    gbc.insets = new Insets(10, 10, 10, 10);
-	    gbc.fill = GridBagConstraints.HORIZONTAL;
+        // Logo no topo
+        JLabel logo = new JLabel("🎬 CineFoz");
+        logo.setForeground(Color.WHITE);
+        logo.setFont(new Font("Arial", Font.BOLD, 26));
+        logo.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+        telaLogin.add(logo, BorderLayout.NORTH);
+        		  add(telaLogin, BorderLayout.WEST);
 
-	    // Logo
-	    JLabel logo = new JLabel("🎬 CineFoz", SwingConstants.CENTER);
-	    logo.setForeground(new Color(255, 215, 0)); // Dourado
-	    logo.setFont(new Font("SansSerif", Font.BOLD, 32));
-	    gbc.gridx = 0;
-	    gbc.gridy = 0;
-	    gbc.gridwidth = 2;
-	    background.add(logo, gbc);
+        // Painel central com layout manual
+        JPanel body = new JPanel(null); // Layout absoluto
+        body.setBackground(new Color(20, 20, 20)); 
 
-	    // Nome de usuário
-	    JTextField txtNome = new JTextField();
-	    txtNome.setFont(new Font("SansSerif", Font.PLAIN, 18));
-	    txtNome.setToolTipText("Usuário: admin");
-	    txtNome.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE), "Usuário", 0, 0, new Font("SansSerif", Font.PLAIN, 14), Color.WHITE));
-	    txtNome.setBackground(new Color(50, 50, 50));
-	    txtNome.setForeground(Color.WHITE);
-	    gbc.gridy = 1;
-	    gbc.gridwidth = 2;
-	    background.add(txtNome, gbc);
+        // Botão "Entrar"
+        JButton btnEntrar = new JButton("Entrar");
+        btnEntrar.setFont(new Font("Arial", Font.PLAIN, 20));
+        btnEntrar.setBounds(870, 60, 120, 40);
+        body.add(btnEntrar);
+        
+        JTextField txtNome = new JTextField();
+        txtNome.setBounds(825, 50, 200, 40);
+        txtNome.setFont(new Font("Arial", Font.PLAIN, 22));
+        txtNome.setVisible(false);
+        body.add(txtNome);
+        
+        JPasswordField txtSenha = new JPasswordField();
+        txtSenha.setBounds(825, 110, 200, 40);
+        txtSenha.setFont(new Font("Arial", Font.PLAIN, 22));
+        txtSenha.setVisible(false);
+        body.add(txtSenha);
+        
+        JButton btnLogin = new JButton("Login");
+        btnLogin.setFont(new Font("Arial", Font.BOLD, 16));
+        btnLogin.setBounds(875, 180, 100, 40);
+        btnLogin.setVisible(false);
+        body.add(btnLogin);
 
-	    // Senha
-	    JPasswordField txtSenha = new JPasswordField();
-	    txtSenha.setFont(new Font("SansSerif", Font.PLAIN, 18));
-	    txtSenha.setToolTipText("Senha: 1234");
-	    txtSenha.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE), "Senha", 0, 0, new Font("SansSerif", Font.PLAIN, 14), Color.WHITE));
-	    txtSenha.setBackground(new Color(50, 50, 50));
-	    txtSenha.setForeground(Color.WHITE);
-	    gbc.gridy = 2;
-	    background.add(txtSenha, gbc);
+        // Ação do botão "Entrar"
+        btnEntrar.addActionListener(e -> 
+        {
+            btnEntrar.setVisible(false);
+            txtNome.setVisible(true);
+            txtSenha.setVisible(true);
+            btnLogin.setVisible(true);
+            body.repaint();
+        });
 
-	    // Botão de login
-	    JButton btnLogin = new JButton("Entrar");
-	    btnLogin.setFont(new Font("SansSerif", Font.BOLD, 18));
-	    btnLogin.setBackground(new Color(255, 215, 0));
-	    btnLogin.setForeground(Color.BLACK);
-	    btnLogin.setFocusPainted(false);
-	    gbc.gridy = 3;
-	    gbc.gridwidth = 2;
-	    background.add(btnLogin, gbc);
+        // Ação do botão "Login"
+        btnLogin.addActionListener(e -> 
+        {
+            String nome = txtNome.getText();
+            String senha = new String(txtSenha.getPassword());
 
-	    // Ação do botão
-	    btnLogin.addActionListener(e -> {
-	        String nome = txtNome.getText();
-	        String senha = new String(txtSenha.getPassword());
-
-	        if (nome.equals("admin") && senha.equals("1234")) {
-	            getContentPane().removeAll();
-	            Inicio(); // Chamada da tela principal
-	            revalidate();
-	            repaint();
-	        } else {
-	            JOptionPane.showMessageDialog(this, "Nome ou senha incorretos.", "Erro", JOptionPane.ERROR_MESSAGE);
-	        }
-	    });
-
-	    // Deixa a janela visível
-	    setVisible(true);
-	}
-
-	public void Inicio() 
+            if (nome.equals("admin") && senha.equals("1234")) 
+            {
+                getContentPane().removeAll();
+                Inicio(); // Chamada da tela principal
+                revalidate();
+                repaint();
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(this, "Nome ou senha incorretos.");
+            }
+        });
+        telaLogin.add(body, BorderLayout.CENTER);
+        add(telaLogin, BorderLayout.CENTER);
+        setVisible(true);
+    }
+	public void selecionarFilme(String caminhoImagem, String titulo) 
 	{
-	    // Nome do painel
-	    setTitle("CineFoz");
-	    setSize(900, 700);
-	    setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    setLocationRelativeTo(null);
+	    setTitle("🎬 CineFoz - Selecionar Horário");
 	    setLayout(new BorderLayout());
+	    getContentPane().setBackground(new Color(20, 20, 20)); // Cor geral
 
-	    // Topo com logotipo
-	    JPanel body = new JPanel(new BorderLayout());
-	    body.setBackground(new Color(40, 40, 40));
-	    body.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
-	    JLabel logo = new JLabel("🎬 CineFoz");
-	    logo.setForeground(Color.WHITE);
-	    logo.setFont(new Font("Arial", Font.BOLD, 26));
-	    body.add(logo, BorderLayout.WEST);
-	    add(body, BorderLayout.NORTH);
+	    // Painel central que organiza tudo verticalmente
+	    JPanel painelCentral = new JPanel();
+	    painelCentral.setBackground(new Color(20, 20, 20));
+	    painelCentral.setLayout(new BoxLayout(painelCentral, BoxLayout.Y_AXIS));
+	    painelCentral.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50)); // margem
 
-	    // Painel com GridLayout horizontal para os pôsteres
-	    JPanel painelFilmes = new JPanel(new GridLayout(1, 0, 20, 0));
-	    painelFilmes.setBackground(new Color(22, 22, 22));
+	    // Imagem do filme centralizada
+	    URL recurso = getClass().getResource(caminhoImagem);
+	    if (recurso == null) {
+	        System.err.println("Imagem não encontrada: " + caminhoImagem);
+	        return;
+	    }
+	    ImageIcon ogIcon = new ImageIcon(recurso);
+	    Image imgP = ogIcon.getImage().getScaledInstance(350, 450, Image.SCALE_SMOOTH);
+	    JLabel lblImagem = new JLabel(new ImageIcon(imgP));
+	    lblImagem.setAlignmentX(CENTER_ALIGNMENT); // centraliza horizontalmente no BoxLayout
+	    painelCentral.add(lblImagem);
 
-	    String[][] filmes = 
+	    // Espaço vertical entre imagem e horários
+	    painelCentral.add(Box.createRigidArea(new Dimension(0, 30)));
+
+	    // Painel de horários com FlowLayout centralizado
+	    JPanel painelHorarios = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+	    painelHorarios.setBackground(new Color(20, 20, 20));
+	    painelHorarios.setMaximumSize(new Dimension(700, 70));
+
+	    String[] horarios = { "12:00", "15:00", "18:00", "21:00" };
+
+	    for (String horario : horarios) 
 	    {
-	        { "/imgs/duna.jpg", "Duna" },
-	        { "/imgs/avengers.jpg", "Vingadores" },
-	        { "/imgs/matrix.jpg", "Matrix" },
-	        { "/imgs/origem.jpg", "Origem" }
-	    };
+	        JButton btnHorario = new JButton(horario);
+	        btnHorario.setPreferredSize(new Dimension(120, 50));
+	        btnHorario.setFont(new Font("Arial", Font.BOLD, 18));
+	        btnHorario.setBackground(new Color(40, 40, 40));
+	        btnHorario.setForeground(Color.WHITE);
+	        btnHorario.setFocusPainted(false);
+	        btnHorario.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+	        btnHorario.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	        btnHorario.setOpaque(true);
+	        btnHorario.setContentAreaFilled(true);
 
-	    for (String[] filme : filmes) 
-	    {
-	        String imgCaminho = filme[0];
-	        String titulo = filme[1];
+	        final Timer[] timer = new Timer[1];
+	        final int[] size = {0};
+	        final int maxGrow = 10;
 
-	        URL recurso = getClass().getResource(imgCaminho);
-	        if (recurso == null) 
-	        {
-	            System.err.println("Imagem não encontrada: " + imgCaminho);
-	            continue;
-	        }
+	        btnHorario.addMouseListener(new MouseAdapter() {
+	            public void mouseEntered(MouseEvent e) {
+	                if (timer[0] != null && timer[0].isRunning()) timer[0].stop();
+	                size[0] = 0;
 
-	        ImageIcon ogIcon = new ImageIcon(recurso);
-	        Image imgP = ogIcon.getImage().getScaledInstance(300, 450, Image.SCALE_SMOOTH);
-	        ImageIcon iconP = new ImageIcon(imgP);
-
-	        Image imgG = ogIcon.getImage().getScaledInstance(320, 480, Image.SCALE_SMOOTH);
-	        ImageIcon iconG = new ImageIcon(imgG);
-
-	        JLabel poster = new JLabel(iconP);
-	        poster.setToolTipText(titulo);
-	        poster.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-	        poster.setPreferredSize(new Dimension(320, 480));
-
-	        poster.addMouseListener(new java.awt.event.MouseAdapter() 
-	        {
-	            public void mouseEntered(java.awt.event.MouseEvent evt) 
-	            {
-	                poster.setIcon(iconG);
+	                timer[0] = new Timer(10, ev -> {
+	                    if (size[0] < maxGrow) {
+	                        size[0]++;
+	                        btnHorario.setPreferredSize(new Dimension(120 + size[0], 50 + size[0]));
+	                        painelHorarios.revalidate();
+	                    } else {
+	                        timer[0].stop();
+	                    }
+	                });
+	                timer[0].start();
 	            }
 
-	            public void mouseExited(java.awt.event.MouseEvent evt) 
-	            {
-	                poster.setIcon(iconP);
-	            }
+	            public void mouseExited(MouseEvent e) {
+	                if (timer[0] != null && timer[0].isRunning()) timer[0].stop();
 
-	            public void mouseClicked(java.awt.event.MouseEvent evt) 
-	            {
-	                getContentPane().removeAll();
-	                selecionarFilme(imgCaminho, titulo);
-	                revalidate();
-	                repaint();
+	                timer[0] = new Timer(10, ev -> {
+	                    if (size[0] > 0) {
+	                        size[0]--;
+	                        btnHorario.setPreferredSize(new Dimension(120 + size[0], 50 + size[0]));
+	                        painelHorarios.revalidate();
+	                    } else {
+	                        timer[0].stop();
+	                    }
+	                });
+	                timer[0].start();
 	            }
 	        });
 
-	        painelFilmes.add(poster);
+	        btnHorario.addActionListener(ev -> {
+	            getContentPane().removeAll();
+	            reservas();
+	            revalidate();
+	            repaint();
+	        });
+
+	        painelHorarios.add(btnHorario);
 	    }
 
-	    // Scroll automático horizontal
-	    JScrollPane scroll = new JScrollPane(painelFilmes,
-	            JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    scroll.setBorder(BorderFactory.createEmptyBorder());
-	    scroll.getHorizontalScrollBar().setUnitIncrement(20);
+	    painelHorarios.setAlignmentX(CENTER_ALIGNMENT);
+	    painelCentral.add(painelHorarios);
 
-	    // Painel central
-	    JPanel painelCentral = new JPanel(new BorderLayout());
-	    painelCentral.setBackground(new Color(20, 20, 20));
-	    painelCentral.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-	    painelCentral.add(scroll, BorderLayout.CENTER);
+	    // Espaço entre horários e informações do filme
+	    painelCentral.add(Box.createRigidArea(new Dimension(0, 30)));
+
+	    // Painel de informações (Duração, Gêneros, Diretor)
+	    JPanel painelInfo = new JPanel();
+	    painelInfo.setBackground(new Color(20, 20, 20));
+	    painelInfo.setLayout(new BoxLayout(painelInfo, BoxLayout.Y_AXIS));
+	    painelInfo.setAlignmentX(CENTER_ALIGNMENT);
+
+	    // Labels com as informações (exemplo fixo, pode adaptar para variáveis)
+	    JLabel lblSinopse = new JLabel("Sinopse: Paul Atreides é um jovem brilhante, dono de um destino além de sua compreensão. Ele deve viajar para o planeta mais perigoso do universo para garantir o futuro de seu povo.");
+	    JLabel lblDuracao = new JLabel("Duração: 2h 15min");
+	    JLabel lblGeneros = new JLabel("Gêneros: Ação, Ficção Científica");
+	    JLabel lblDiretor = new JLabel("Diretor: Denis Villeneuve");
+	    
+	    
+
+	    // Estilo dos textos
+	    Font fontInfo = new Font("Arial", Font.PLAIN, 16);
+	    Color corTexto = Color.WHITE;
+	    
+	    lblSinopse.setFont(fontInfo);
+	    lblSinopse.setForeground(corTexto);
+	    lblDuracao.setFont(fontInfo);
+	    lblDuracao.setForeground(corTexto);
+	    lblGeneros.setFont(fontInfo);
+	    lblGeneros.setForeground(corTexto);
+	    lblDiretor.setFont(fontInfo);
+	    lblDiretor.setForeground(corTexto);
+
+	    // Margem entre linhas
+	    lblSinopse.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+	    lblDuracao.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+	    lblGeneros.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+	    lblDiretor.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+	    
+	    painelInfo.add(lblSinopse);
+	    painelInfo.add(lblDuracao);
+	    painelInfo.add(lblGeneros);
+	    painelInfo.add(lblDiretor);
+
+	    painelCentral.add(painelInfo);
 
 	    add(painelCentral, BorderLayout.CENTER);
 
-	    getContentPane().setBackground(new Color(20, 20, 20));
 	    setVisible(true);
 	}
+    public void Inicio() 
+    {
+        //Nome do painel
+        setTitle("CineFoz");
+        setSize(900, 700);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
+        // Topo com logotipo
+        JPanel body = new JPanel(new BorderLayout());
+        body.setBackground(new Color(40, 40, 40));
+        body.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+        JLabel logo = new JLabel("🎬 CineFoz");
+        logo.setForeground(Color.WHITE);
+        logo.setFont(new Font("Arial", Font.BOLD, 26));
+        body.add(logo, BorderLayout.WEST);
+        add(body, BorderLayout.NORTH);
+
+        // Painel com FlowLayout para os pôsteres (sem scroll)
+        JPanel corpo = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        corpo.setBackground(new Color(22, 22, 22));
+
+        String[][] filmes = 
+        {
+            { "/imgs/duna.jpg", "Duna" },
+            { "/imgs/avengers.jpg", "Vingadores" },
+            { "/imgs/matrix.jpg", "Matrix" },
+            { "/imgs/origem.jpg", "Origem" }
+        };
+
+        for (String[] filme : filmes) 
+        {
+            String imgCaminho = filme[0];
+            String titulo = filme[1];
+
+            URL recurso = getClass().getResource(imgCaminho);
+            if (recurso == null) 
+            {
+                System.err.println("Imagem não encontrada: " + imgCaminho);
+                continue;
+            }
+
+            ImageIcon ogIcon = new ImageIcon(recurso);
+            Image imgP = ogIcon.getImage().getScaledInstance(300, 450, Image.SCALE_SMOOTH);
+            ImageIcon iconP = new ImageIcon(imgP);
+
+            Image imgG = ogIcon.getImage().getScaledInstance(320, 480, Image.SCALE_SMOOTH);
+            ImageIcon iconG = new ImageIcon(imgG);
+
+            JLabel poster = new JLabel(iconP);
+            poster.setToolTipText(titulo);
+            poster.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            poster.setPreferredSize(new Dimension(320, 480));
+
+            poster.addMouseListener(new java.awt.event.MouseAdapter() 
+            {
+                public void mouseEntered(java.awt.event.MouseEvent evt) 
+                {
+                    poster.setIcon(iconG);
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) 
+                {
+                    poster.setIcon(iconP);
+                }
+                public void mouseClicked(java.awt.event.MouseEvent evt) 
+                {
+                    getContentPane().removeAll();
+					selecionarFilme(imgCaminho, titulo);
+                    revalidate();
+                    repaint();
+                }
+            });
+
+            corpo.add(poster);
+        }
+
+        // Container visível que "corta" o painel corpo para mostrar só parte das imagens
+        JPanel containerVisivel = new JPanel(null);
+        containerVisivel.setPreferredSize(new Dimension(850, 520));
+        containerVisivel.setBackground(new Color(20, 20, 20));
+        containerVisivel.setOpaque(true);
+
+        // Posiciona corpo dentro do container (tamanho natural)
+        Dimension corpoPref = corpo.getPreferredSize();
+        corpo.setBounds(0, 0, corpoPref.width, corpoPref.height);
+        containerVisivel.add(corpo);
+
+        // Botões de navegação
+        JButton btnLeft = new JButton("<");
+        JButton btnRight = new JButton(">");
+        Dimension btnSize = new Dimension(40, 140);
+
+        JButton[] botoes = {btnLeft, btnRight};
+        for (JButton btn : botoes) {
+            btn.setPreferredSize(btnSize);
+            btn.setFont(new Font("Arial", Font.BOLD, 30));
+            btn.setMargin(new Insets(0, 0, 0, 0));
+            btn.setOpaque(true);
+            btn.setBackground(new Color(40, 40, 40));
+            btn.setForeground(Color.WHITE);
+            btn.setFocusPainted(false);
+            btn.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        }
+
+        final int[] posX = {0}; 
+        int deslocamento = 370;
+
+        class Animador 
+        {
+            Timer timer;
+            Animador(int destino) 
+            {
+                timer = new Timer(10, e -> 
+                {
+                    int passo = 20;
+                    if (posX[0] > destino) 
+                    {
+                        posX[0] = Math.max(posX[0] - passo, destino);
+                    } 
+                    else if (posX[0] < destino) 
+                    {
+                        posX[0] = Math.min(posX[0] + passo, destino);
+                    }
+                    corpo.setLocation(posX[0], 0);
+                    containerVisivel.repaint();
+                    if (posX[0] == destino) 
+                    {
+                        timer.stop();
+                    }
+                });
+                timer.start();
+            }
+        }
+
+        btnLeft.addActionListener(e -> 
+        {
+            int destino = Math.min(posX[0] + deslocamento, 0);
+            new Animador(destino);
+        });
+
+        btnRight.addActionListener(e -> 
+        {
+            int limiteDireito = containerVisivel.getWidth() - corpo.getWidth();
+            int destino = Math.max(posX[0] - deslocamento, limiteDireito);
+            new Animador(destino);
+        });
+
+        JPanel painelScroll = new JPanel();
+        painelScroll.setBackground(new Color(20, 20, 20));
+        painelScroll.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        painelScroll.add(btnLeft);
+        painelScroll.add(containerVisivel);
+        painelScroll.add(btnRight);
+
+        add(painelScroll, BorderLayout.CENTER);
+
+        getContentPane().setBackground(new Color(20, 20, 20));
+        setVisible(true);
+    }
     public void reservas() 
     {
         setTitle("CineFoz - Escolha de Assentos");
